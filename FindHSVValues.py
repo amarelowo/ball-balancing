@@ -72,7 +72,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     '--camera', help='Camera divide number.', default=0, type=int)
 args = parser.parse_args()
-cap = cv.VideoCapture(args.camera)
+cap = cv.VideoCapture(1)
 cv.namedWindow(window_capture_name)
 cv.namedWindow(window_detection_name)
 cv.createTrackbar(low_H_name, window_detection_name, low_H,
