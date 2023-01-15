@@ -19,16 +19,16 @@ class circulo:
         '''
         
         #APLICAR FILTROS
-        frame = cv.medianBlur(frame, 5)
+        frame = cv.medianBlur(frame, 3)
         frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-        frameCores = cv.inRange(frame, self._lowerRange, self._upperRange)
+        frame = cv.inRange(frame, self._lowerRange, self._upperRange)
 
         
-        mask = cv.erode(frameCores, None, iterations=2)
-        mask = cv.dilate(frameCores,None,iterations=2)
+        # mask = cv.erode(frameCores, None, iterations=2)
+        # mask = cv.dilate(frameCores,None,iterations=2)
         
         #ENCONTRA CONTORNOS DA COR ESPECIFICADA
-        contours, __ = cv.findContours(mask, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
+        contours, __ = cv.findContours(frame, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
 
         for i, c in enumerate(contours):
             #epsilon = 0.01 * cv.arcLength(c, True)
@@ -40,7 +40,7 @@ class circulo:
                 self._xCoord = int(center[0])
                 self._yCoord = int(center[1])
                 self._radius = int(radius)
-                return frameCores
+                return
             
         
         self._xCoord = None
@@ -79,15 +79,15 @@ class retangulo:
 
     def seetCoord(self, frame):
         #APLICAR FILTROS
-        frame = cv.medianBlur(frame, 5)
+        frame = cv.medianBlur(frame, 3)
         frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-        frameCores = cv.inRange(frame, self._lowerRange, self._upperRange)
+        frame = cv.inRange(frame, self._lowerRange, self._upperRange)
 
         
-        mask = cv.erode(frameCores, None, iterations=2)
-        mask = cv.dilate(frameCores,None,iterations=2)
+        # frame = cv.erode(frame, None, iterations=2)
+        # frame = cv.dilate(frame,None,iterations=2)
 
-        contornos, __ = cv.findContours(mask, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+        contornos, __ = cv.findContours(frame, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
 
         #PERCORRE OS CONTORNOS IDENTIFICADOS ATÉ ENCONTRAR O RETANGULO
         for contorno in contornos:
@@ -107,7 +107,7 @@ class retangulo:
                 return
 
     def coordenadas(self, frame):
-        self.seetCoord(frame)
+        frame = self.seetCoord(frame)
         return self._box
 
     def encontrouRetangulo(self):

@@ -72,7 +72,7 @@ parser = argparse.ArgumentParser(
 parser.add_argument(
     '--camera', help='Camera divide number.', default=0, type=int)
 args = parser.parse_args()
-cap = cv.VideoCapture(1)
+cap = cv.VideoCapture(0)
 cv.namedWindow(window_capture_name)
 cv.namedWindow(window_detection_name)
 cv.createTrackbar(low_H_name, window_detection_name, low_H,
@@ -92,9 +92,19 @@ while True:
     ret, frame = cap.read()
     if frame is None:
         break
+
+
+    #frame = cv.GaussianBlur(frame, (5,5), cv.BORDER_DEFAULT)
+    frame = cv.medianBlur(frame, 3)
     frame_HSV = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
     frame_threshold = cv.inRange(
         frame_HSV, (low_H, low_S, low_V), (high_H, high_S, high_V))
+
+        
+    # frame_threshold = cv.erode(frame_threshold, None, iterations=1)
+    # frame_threshold = cv.dilate(frame_threshold,None,iterations=1)
+    
+    
 
     cv.imshow(window_capture_name, frame)
     cv.imshow(window_detection_name, frame_threshold)
