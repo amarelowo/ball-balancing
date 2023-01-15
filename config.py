@@ -1,6 +1,7 @@
 
 RAIO_MAXIMO = 100
 RAIO_MINIMO = 30
+AREA_MAXIMA = 9600
 
 azulInferior = (109,40,0)
 azulSuperior = (168,255,250)
