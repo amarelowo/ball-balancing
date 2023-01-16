@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
 from config import *
-from types import NoneType
+import time
 
 
 class circulo:
@@ -115,7 +115,7 @@ class retangulo:
         return self._box
 
     def encontrouRetangulo(self):
-        if type(self._box) != NoneType:
+        if not self._box is None:
             self._encontrouRetangulo = True   
         else:
             self._encontrouRetangulo = False
@@ -123,4 +123,5 @@ class retangulo:
         return self._encontrouRetangulo
 
     def areaRetangulo(self):
-        return self._area                     
+        return self._area      
+

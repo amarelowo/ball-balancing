@@ -10,6 +10,7 @@ canaleta = retangulo(marromInferior,marromSuperior)
 capture =  cv.VideoCapture(1)
 
 
+boxMaior = None
 delta = 0
 areaMaior = 0
 t1 = time.time()
@@ -27,33 +28,26 @@ while True:
 
     if canaleta.encontrouRetangulo():
         cv.drawContours(frame,[box],0,(0,0,0),2)
-
+        
         if area > areaMaior:
             areaMaior = area
             boxMaior = box
             ##cv.drawContours(frame,[boxMaior],0,(255,255,255),6)
 
     
-
-    if delta > 5:
-        cv.destroyAllWindows()
-        break
+    if not boxMaior is None:
+        if delta > 5:
+            cv.destroyAllWindows()
+            break
 
     #cv.imshow("Area", frame)
     delta = time.time() - t1
-    print(round(delta,2))
+    print(round(delta,2),box,area)
 
     
 print(boxMaior, area)
 
-p1x = boxMaior[0][0]
-p1y = boxMaior[0][1]
-p2x = boxMaior[1][0]
-p2y = boxMaior[1][1]
-p3x = boxMaior[2][0]
-p3y = boxMaior[2][1]
-p4x = boxMaior[3][0]
-p4y = boxMaior[3][1]
+
 
 #print(p1,p2,p3,p4)
 while True:
@@ -62,10 +56,10 @@ while True:
     if frame is None:
         break
     
-    frame = frame[p2y-50:p1y+50, p2x-50:p3x+50]
+    
     x, y, r = bola.coordenadas(frame)
     #box = canaleta.coordenadas(frame)
-    cv.circle(frame,(10,10), 10,(0,0,0),10 )
+    
 
     #print(bola.encontrouCirculo()z)
     if bola.encontrouCirculo():
@@ -81,7 +75,7 @@ while True:
     frameMarrom = cv.inRange(frame2, marromInferior, marromSuperior)
     frameAmarelo = cv.inRange(frame2, amareloInferior, amareloSuperior)
 
-    cv.drawContours(frame,[boxMaior],0,(255,255,255),6)
+    cv.drawContours(frame,[boxMaior],0,(255,255,255),1)
     cv.putText(frame,"pt1",(boxMaior[0]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
     cv.putText(frame,"pt2",(boxMaior[1]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
     cv.putText(frame,"pt3",(boxMaior[2]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)

@@ -2,13 +2,13 @@
 RAIO_MAXIMO = 100
 RAIO_MINIMO = 15
 AREA_MINIMA = 18000
-AREA_MAXIMA = 25000
+AREA_MAXIMA = 20000
 
 azulInferior        = (109,40,0)
 azulSuperior        = (168,255,250)
 vermelhoInferior    = (0,110,160)
 vermelhoSuperior    = (30,255,255)
-amareloInferior     = (21,120,65)
+amareloInferior     = (21,80,75)
 amareloSuperior     = (93,255,255)
 marromInferior      = (0,55,0)
 marromSuperior      = (24,255,255)
