@@ -75,6 +75,8 @@ class retangulo:
         self._terceiroPonto = None
         self._quartoPonto   = None
 
+        self._area = None
+
         self._encontrouRetangulo = False
 
     def seetCoord(self, frame):
@@ -92,7 +94,7 @@ class retangulo:
         #PERCORRE OS CONTORNOS IDENTIFICADOS ATÉ ENCONTRAR O RETANGULO
         for contorno in contornos:
             aprox = cv.contourArea(contorno)
-            if aprox > AREA_MAXIMA:
+            if aprox > AREA_MINIMA and aprox < AREA_MAXIMA:
                 retg = cv.minAreaRect(contorno)
                 box = cv.boxPoints(retg)
                 box = np.int0(box)
@@ -103,6 +105,8 @@ class retangulo:
                 self._segundoPonto = box[1]
                 self._terceiroPonto = box[2]
                 self._quartoPonto = box[3]
+
+                self._area = aprox
 
                 return
 
@@ -116,4 +120,7 @@ class retangulo:
         else:
             self._encontrouRetangulo = False
 
-        return self._encontrouRetangulo                 
+        return self._encontrouRetangulo
+
+    def areaRetangulo(self):
+        return self._area                     
