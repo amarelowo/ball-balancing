@@ -36,7 +36,7 @@ class circulo:
             center, radius = cv.minEnclosingCircle(contours_poly)
             
             if radius > RAIO_MINIMO and radius < RAIO_MAXIMO:
-                print(center, int(radius))
+                #print(center, int(radius))
                 self._xCoord = int(center[0])
                 self._yCoord = int(center[1])
                 self._radius = int(radius)
@@ -75,7 +75,8 @@ class retangulo:
         self._terceiroPonto = None
         self._quartoPonto   = None
 
-        self._area = None
+        self._area = 0
+
 
         self._encontrouRetangulo = False
 
@@ -125,3 +126,30 @@ class retangulo:
     def areaRetangulo(self):
         return self._area      
 
+    def encontrarPlataforma(self, cam):        
+        
+        t = time.time()
+        while True:
+            __, frame = cam.read()
+            
+            if frame is None:
+                print("Erro ao ler a webcam, tente novamente")
+                break
+            
+            box = self.coordenadas(frame)
+            area = self.areaRetangulo()
+
+            if self.encontrouRetangulo():
+                if area > self._area:
+                    self._area = area
+                    self._box = box
+
+            delta = time.time() - t
+            if not self._box is None:
+                if delta > 5:
+
+                    break
+
+            print(round(delta,2), area)    
+
+        return self._box, self._area
