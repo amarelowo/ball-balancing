@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
 from config import *
+import pid
 import time
 
 
@@ -76,6 +77,8 @@ class retangulo:
         self._quartoPonto   = None
 
         self._area = 0
+        self._centroArea = None
+        self._maxRange = None
 
 
         self._encontrouRetangulo = False
@@ -152,4 +155,9 @@ class retangulo:
 
             print(round(delta,2), area)    
 
-        return self._box, self._area
+        self._centroArea = pid.centroReta(self._box[0],self._box[2])
+        self._maxRange = self._centroArea[0] - box[0][0]  
+        
+        print(self._centroArea,self._maxRange)
+        
+        return self._box, self._maxRange, self._centroArea, self._area
