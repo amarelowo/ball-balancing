@@ -7,7 +7,7 @@ from identificadores import *
 from pid import *
 
 configuracoes = {
-"Esp-conectado": False
+"Esp-conectado": True
 }
 
 if (configuracoes["Esp-conectado"]):
@@ -58,8 +58,9 @@ while True:
 
         #-------------- Envia os dados para a esp --------------
         if (configuracoes["Esp-conectado"]):
-            data = threading.Thread(lambda: ComunicacaoSerial.enviarDados(posServoAjustada))
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados(int(posServoAjustada)))
             data.start()
+            #ComunicacaoSerial.enviarDados(int(posServoAjustada))
 
   
     cv.circle(frame, (cArea), 2,(0,255,255),3)
