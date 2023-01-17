@@ -2,17 +2,21 @@ import cv2 as cv
 import math
 from config import *
 from identificadores import *
-
+from pid import *
 
 bola = circulo(amareloInferior, amareloSuperior)
 canaleta = retangulo(marromInferior,marromSuperior)
+servo = pid( kP=1.0, kI=0, kD=0, setPoint=0)
 
 capture =  cv.VideoCapture(1)
 
+
 box, area = canaleta.encontrarPlataforma(capture)
 
-cArea = ((box[0][0]+box[2][0])//2 ,(box[0][1]+box[2][1])//2)
-print(cArea)
+print(box[0],box[2])
+cArea = centroReta(box[0],box[2])
+maxRange = cArea[0] - box[0][0]  
+print(cArea,maxRange)
 
 while True:
 
@@ -30,11 +34,22 @@ while True:
     if bola.encontrouCirculo():
         #print(f"xBola: {x} | xArea: {cArea[0]}")
         dist = cArea[0] - x
-        print(dist)
+    
+        posServo = servo.process(dist)
+
+        if maxRange < 0:
+            maxRange = maxRange*(-1)
+
+        posServoAjustada = map(posServo, in_min= -maxRange, in_max= maxRange, out_min=0, out_max=180)
+        print(f"Dist: {dist}, pos: {posServo}, ajuste: {int(posServoAjustada)}")
+
+
+
+
         cv.circle(frame, (x, y), r, (0,255,0), 2)
         cv.putText(frame,f"Distancia: {dist}",(75,75),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
-
         cv.line(frame,(x,y),(cArea),(255,0,255),2)
+
         
     
   
