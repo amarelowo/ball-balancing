@@ -5,7 +5,13 @@ import numpy as np
 from config import *
 from identificadores import *
 from pid import *
-#import ComunicacaoSerial
+
+configuracoes = {
+"Esp-conectado": False
+}
+
+if (configuracoes["Esp-conectado"]):
+    import ComunicacaoSerial
 
 
 
@@ -51,8 +57,9 @@ while True:
         cv.putText(frame,f"Distancia: {dist}",(75,75),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
 
         #-------------- Envia os dados para a esp --------------
-        # data = threading.Thread(lambda: ComunicacaoSerial.enviarDados(posServoAjustada))
-        # data.start()
+        if (configuracoes["Esp-conectado"]):
+            data = threading.Thread(lambda: ComunicacaoSerial.enviarDados(posServoAjustada))
+            data.start()
 
   
     cv.circle(frame, (cArea), 2,(0,255,255),3)
