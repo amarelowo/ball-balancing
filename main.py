@@ -7,7 +7,7 @@ from identificadores import *
 from pid import *
 
 configuracoes = {
-"Esp-conectado": True
+"Esp-conectado": False
 }
 
 if (configuracoes["Esp-conectado"]):

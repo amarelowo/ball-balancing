@@ -26,7 +26,7 @@ class circulo:
 
         
         # mask = cv.erode(frameCores, None, iterations=2)
-        # mask = cv.dilate(frameCores,None,iterations=2)
+        # mask = cv.dilate(frameCores,None, iterations=2)
         
         #ENCONTRA CONTORNOS DA COR ESPECIFICADA
         contours, __ = cv.findContours(frame, cv.RETR_TREE, cv.CHAIN_APPROX_SIMPLE)
@@ -83,7 +83,7 @@ class retangulo:
 
         self._encontrouRetangulo = False
 
-    def seetCoord(self, frame):
+    def setCoord(self, frame):
         #APLICAR FILTROS
         frame = cv.medianBlur(frame, 3)
         frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
@@ -115,7 +115,7 @@ class retangulo:
                 return
 
     def coordenadas(self, frame):
-        frame = self.seetCoord(frame)
+        frame = self.setCoord(frame)
         return self._box
 
     def encontrouRetangulo(self):
