@@ -19,6 +19,10 @@ def enviarDados(dado):
     # print(type(sla), sla)
     
     time.sleep(0.01)
-
-
+slamane = 0
+while slamane != -1:
+    slamane = int(input("escreve ai: "))
+    dado = format(slamane, '03d')
+    esp.write(bytes(dado,"utf-8"))
+    print(slamane)
 
