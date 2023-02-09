@@ -25,4 +25,3 @@ def enviarDados(dado):
 #     dado = format(slamane, '03d')
 #     esp.write(bytes(dado,"utf-8"))
 #     print(slamane)
-

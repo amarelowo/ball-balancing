@@ -17,7 +17,7 @@ if (configuracoes["Esp-conectado"]):
 
 bola = circulo(amareloInferior, amareloSuperior)
 canaleta = retangulo(verdeInferior,verdeSuperior)
-servo = pid( kP=0.98, kI=0, kD=0, setPoint=0)
+servo = pid( kP=1.0, kI=0, kD=0, setPoint=0)
 
 capture =  cv.VideoCapture(1)
 box, maxRange, cArea, __ = canaleta.encontrarPlataforma(capture)
@@ -40,14 +40,14 @@ while True:
     
 
     if bola.encontrouCirculo():
-        dist = cArea[0] - x
+        dist = x - cArea[0] 
     
         posServo = servo.process(dist)
 
         if maxRange < 0:
             maxRange = maxRange*(-1)
 
-        posServoAjustada = map(posServo, in_min= -maxRange, in_max= maxRange, out_min=97, out_max=77)
+        posServoAjustada = map(posServo, in_min= -maxRange, in_max= maxRange, out_min=50, out_max=150)
         print(f"Dist: {dist}, pos: {posServo}, ajuste: {int(posServoAjustada)}")
 
 
@@ -63,7 +63,7 @@ while True:
             #ComunicacaoSerial.enviarDados(int(posServoAjustada))
     else:
         if (configuracoes["Esp-conectado"]):
-            data = threading.Thread(target=ComunicacaoSerial.enviarDados(83))
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados(100))
             data.start()
   
     cv.circle(frame, (cArea), 2,(0,255,255),3)
