@@ -7,7 +7,7 @@ from identificadores import *
 from pid import *
 
 configuracoes = {
-"Esp-conectado": False
+"Esp-conectado": True
 }
 
 if (configuracoes["Esp-conectado"]):
@@ -17,7 +17,7 @@ if (configuracoes["Esp-conectado"]):
 
 bola = circulo(amareloInferior, amareloSuperior)
 canaleta = retangulo(verdeInferior,verdeSuperior)
-servo = pid( kP=1.0, kI=0, kD=0, setPoint=0)
+servo = pid( kP=0.98, kI=0, kD=0, setPoint=0)
 
 capture =  cv.VideoCapture(1)
 box, maxRange, cArea, __ = canaleta.encontrarPlataforma(capture)
@@ -47,7 +47,7 @@ while True:
         if maxRange < 0:
             maxRange = maxRange*(-1)
 
-        posServoAjustada = map(posServo, in_min= -maxRange, in_max= maxRange, out_min=0, out_max=180)
+        posServoAjustada = map(posServo, in_min= -maxRange, in_max= maxRange, out_min=97, out_max=77)
         print(f"Dist: {dist}, pos: {posServo}, ajuste: {int(posServoAjustada)}")
 
 
@@ -61,7 +61,10 @@ while True:
             data = threading.Thread(target=ComunicacaoSerial.enviarDados(int(posServoAjustada)))
             data.start()
             #ComunicacaoSerial.enviarDados(int(posServoAjustada))
-
+    else:
+        if (configuracoes["Esp-conectado"]):
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados(83))
+            data.start()
   
     cv.circle(frame, (cArea), 2,(0,255,255),3)
     cv.drawContours(frame,[box],0,(255,255,255),1)
