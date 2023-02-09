@@ -16,7 +16,7 @@ if (configuracoes["Esp-conectado"]):
 
 
 bola = circulo(amareloInferior, amareloSuperior)
-canaleta = retangulo(marromInferior,marromSuperior)
+canaleta = retangulo(verdeInferior,verdeSuperior)
 servo = pid( kP=1.0, kI=0, kD=0, setPoint=0)
 
 capture =  cv.VideoCapture(1)
