@@ -7,9 +7,9 @@ import time
 
 class circulo:
 
-    def __init__(self, lowerRange, upperRange):
-        self._upperRange = upperRange
-        self._lowerRange = lowerRange
+    def __init__(self, colorRange):
+        self._upperRange = colorRange[1]
+        self._lowerRange = colorRange[0]
         self._xCoord = None
         self._yCoord = None
         self._radius = None
@@ -36,7 +36,7 @@ class circulo:
             contours_poly = cv.approxPolyDP(c, 5, True)
             center, radius = cv.minEnclosingCircle(contours_poly)
             
-            if radius > RAIO_MINIMO and radius < RAIO_MAXIMO:
+            if radius > FORMATOS["RAIO-MINIMO"] and radius < FORMATOS["RAIO-MAXIMO"]:
                 #print(center, int(radius))
                 self._xCoord = int(center[0])
                 self._yCoord = int(center[1])
@@ -66,9 +66,9 @@ class circulo:
 
 class retangulo:
 
-    def __init__(self, lowerRange, upperRange):
-        self._upperRange = upperRange
-        self._lowerRange = lowerRange
+    def __init__(self, colorRange):
+        self._upperRange = colorRange[1]
+        self._lowerRange = colorRange[0]
         self._box = None
 
         self._primeiroPonto = None
@@ -98,7 +98,7 @@ class retangulo:
         #PERCORRE OS CONTORNOS IDENTIFICADOS ATÉ ENCONTRAR O RETANGULO
         for contorno in contornos:
             aprox = cv.contourArea(contorno)
-            if aprox > AREA_MINIMA and aprox < AREA_MAXIMA:
+            if aprox > FORMATOS["AREA-MINIMA"] and aprox < FORMATOS["AREA-MAXIMA"]:
                 retg = cv.minAreaRect(contorno)
                 box = cv.boxPoints(retg)
                 box = np.int0(box)
@@ -146,18 +146,21 @@ class retangulo:
                 if area > self._area:
                     self._area = area
                     self._box = box
+                    break
 
             delta = time.time() - t
-            if not self._box is None:
-                if delta > 5:
-
-                    break
+            
+            if delta > 5:
+                break
 
             print(round(delta,2), area)    
 
-        self._centroArea = pid.centroReta(self._box[0],self._box[2])
-        self._maxRange = self._centroArea[0] - box[0][0]  
-        
+        if not self._box is None:
+            self._centroArea = pid.centroReta(self._box[0],self._box[2])
+            self._maxRange = self._centroArea[0] - box[0][0]  
+            if self._maxRange < 0:
+                self._maxRange = self._maxRange*(-1)
+
         print(self._centroArea,self._maxRange)
         
         return self._box, self._maxRange, self._centroArea, self._area
