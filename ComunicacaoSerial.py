@@ -1,14 +1,20 @@
 import serial
 import time
-
+from pid import *
 esp = serial.Serial('COM4', baudrate=115200,timeout=.1)
 
 
 def enviarDados(dado):
 
-    ##parte que ainda nao funcionou
-    dado = format(dado, '03d')
+    if dado > 1000:
+        dado = 1000
+    elif dado < 0:
+        dado = 0
+
+    dado = format(dado, '04d')
     esp.write(bytes(dado,"utf-8"))
+    retorno = esp.readline()
+    print(dado,retorno )
     
     ##parte que ta funcionando mas só leva um caractere
     # if dado > 90:
@@ -25,3 +31,4 @@ def enviarDados(dado):
 #     dado = format(slamane, '03d')
 #     esp.write(bytes(dado,"utf-8"))
 #     print(slamane)
+

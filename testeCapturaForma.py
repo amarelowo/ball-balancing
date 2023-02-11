@@ -14,7 +14,7 @@ while True:
     cv.imshow("Camera", frame)
     frame = cv.medianBlur(frame, 9)
     frame = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-    frameCores = cv.inRange(frame, azulInferior, azulSuperior)
+    frameCores = cv.inRange(frame, COR["azul"][0], COR["azul"][1])
     # mask = cv.erode(frameCores, None, iterations=2)
     # mask = cv.dilate(frameCores,None,iterations=2)
     

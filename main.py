@@ -7,7 +7,7 @@ from identificadores import *
 from pid import *
 
 configuracoes = {
-"Esp-conectado": False
+"Esp-conectado": True
 }
 
 if (configuracoes["Esp-conectado"]):
@@ -46,7 +46,7 @@ while True:
 
     else:
         if (configuracoes["Esp-conectado"]):
-            data = threading.Thread(target=ComunicacaoSerial.enviarDados(90))
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados(500))
             data.start()
   
     cv.circle(frame, (cArea), 2,(0,255,255),3)
