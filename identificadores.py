@@ -150,7 +150,7 @@ class retangulo:
 
             delta = time.time() - t
             
-            if delta > 2:
+            if delta > 1:
                 break
 
             print(round(delta,2), area)    

@@ -4,27 +4,32 @@ from pid import *
 esp = serial.Serial('COM4', baudrate=115200,timeout=.1)
 
 
-def enviarDados(dado):
+def enviarDados(verficador, dado1, dado2, dado3):
 
-    if dado > 1000:
-        dado = 1000
-    elif dado < 0:
-        dado = 0
+    if verficador == "c":
+        dado = verficador+";"+ format(dado1, '05')+";"+ format(dado2, '05')+";"+ format(dado3, '05')
+        
+    if verficador == "p":
+        dado = verficador+";"+ format(dado1, '05d')+";"+ format(dado2, '05d')+";"+ format(dado3, '05d')
+        if type(dado1) is int:
+            if dado1 > 1000:
+                dado1 = 1000
+            elif dado1 < 0:
+                dado1 = 0
 
-    dado = format(dado, '04d')
+
     esp.write(bytes(dado,"utf-8"))
     retorno = esp.readline()
-    print(dado,retorno )
-    
-    ##parte que ta funcionando mas só leva um caractere
-    # if dado > 90:
-    #     sla = "l"
-    # else:
-    #     sla = "d"
-    # esp.write(bytes(sla, "utf-8"))
-    # print(type(sla), sla)
-    
+    print(dado,retorno)
     time.sleep(0.01)
+
+    
+
+
+
+
+## Codigo para testar o angulo do servo
+
 # slamane = 0
 # while slamane != -1:
 #     slamane = int(input("escreve ai: "))
