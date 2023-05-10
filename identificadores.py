@@ -78,7 +78,8 @@ class retangulo:
 
         self._area = 0
         self._centroArea = None
-        self._maxRange = None
+        self._maxRangeX = None
+        self._maxRangeY = None
 
 
         self._encontrouRetangulo = False
@@ -150,17 +151,49 @@ class retangulo:
 
             delta = time.time() - t
             
-            if delta > 1:
+            if delta > 3:
                 break
 
             print(round(delta,2), area)    
 
         if not self._box is None:
             self._centroArea = pid.centroReta(self._box[0],self._box[2])
-            self._maxRange = self._centroArea[0] - box[0][0]  
-            if self._maxRange < 0:
-                self._maxRange = self._maxRange*(-1)
+            self._maxRangeX = self._centroArea[0] - box[0][0]  
+            if self._maxRangeX < 0:
+                self._maxRangeX = self._maxRangeX*(-1)
+            self._maxRangeY = self._centroArea[1] - box[0][1]  
+            if self._maxRangeY < 0:
+                self._maxRangeY = self._maxRangeY*(-1)    
 
-        print(self._centroArea,self._maxRange)
+        print(self._centroArea,(self._maxRangeX,self._maxRangeY))
         
-        return self._box, self._maxRange, self._centroArea, self._area
+        return self._box, (self._maxRangeX, self._maxRangeY), self._centroArea, self._area
+    
+
+
+
+
+def selecBox(capture):
+    __, frame = capture.read()
+    x1,y1,w,h = cv.selectROI("Selecione a plataforma", frame)
+    print(x1,y1,w,h)
+    
+    p1 = (x1,y1)
+    p2 = (x1+w, y1)
+    p3 = (x1+w,y1+h)
+    p4 = (x1, y1+h)
+    box = (p1,p2,p3,p4)
+    box = np.int0(box)
+    print(box)
+
+    newBox = [(0,0),(w,0),(w,h),(0,h)]
+    newBox = np.int0(newBox)
+    
+    centroArea = pid.centroReta(newBox[0],newBox[2])
+    maxRangeX = centroArea[0] - newBox[0][0]  
+    if maxRangeX < 0:
+        maxRangeX = maxRangeX*(-1)
+    maxRangeY = centroArea[1] - newBox[0][1]  
+    if maxRangeY < 0:
+        maxRangeY = maxRangeY*(-1)  
+    return box,newBox,(maxRangeX,maxRangeY),centroArea
