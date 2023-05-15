@@ -8,7 +8,7 @@ from pid import *
 
 
 configuracoes = {
-"Esp-conectado": False
+"Esp-conectado": True
 }
 
 if (configuracoes["Esp-conectado"]):
@@ -24,7 +24,7 @@ if (configuracoes["Esp-conectado"]):
 
 
 
-bola = circulo(COR["laranja"])
+bola = circulo(COR["branco"])
 canaleta = retangulo(COR["preto"])
 
 capture =  cv.VideoCapture(1)
@@ -47,14 +47,14 @@ while True:
 
 
         
-        distFormatadaX = int(map(distX, -maxRange[0],maxRange[0],0, 1000))
-        distFormatadaY = int(map(distY, -maxRange[1],maxRange[1],0, 1000))
+        distFormatadaX = int(map(distX, -maxRange[0],maxRange[0],0, 500))
+        distFormatadaY = int(map(distY, -maxRange[1],maxRange[1],0, 500))
 
         cv.circle(frame, (xBola, yBola), raio, (0,255,0), 2)
-        cv.line(frame,(xBola,cArea[0]),(cArea),(255,0,0),2)
-        cv.line(frame,(cArea[1],yBola),(cArea),(255,0,255),2)
-        cv.putText(frame,f"DistX: {distX} DistForX: {distFormatadaX}",(15,15),cv.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),2,cv.LINE_AA)
-        cv.putText(frame,f"DistY: {distY} DistForY: {distFormatadaY}",(15,40),cv.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),2,cv.LINE_AA)
+        # cv.line(frame,(xBola,cArea[1]),(cArea),(255,0,0),2)
+        # cv.line(frame,(cArea[0],yBola),(cArea),(255,0,255),2)
+        # cv.putText(frame,f"DistX: {distX} DistForX: {distFormatadaX}",(15,15),cv.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),1,cv.LINE_AA)
+        # cv.putText(frame,f"DistY: {distY} DistForY: {distFormatadaY}",(15,40),cv.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),1,cv.LINE_AA)
         #-------------- Envia os dados para a esp --------------
         if (configuracoes["Esp-conectado"]):
             data = threading.Thread(target=ComunicacaoSerial.enviarDados("p",distFormatadaX,distFormatadaY,0))
@@ -62,11 +62,11 @@ while True:
 
     else:
         if (configuracoes["Esp-conectado"]):
-            data = threading.Thread(target=ComunicacaoSerial.enviarDados("p",500,500,0))
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados("p",250,250,0))
             data.start()
   
-    cv.circle(frame, (cArea), 2,(0,255,255),3)
-    cv.drawContours(frame,[newBox],0,(255,255,255),1)
+    # cv.circle(frame, (cArea), 2,(0,255,255),3)
+    # cv.drawContours(frame,[newBox],0,(255,255,255),1)
     # cv.putText(frame,"1",(box[0]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
     # cv.putText(frame,"2",(box[1]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)
     # cv.putText(frame,"3",(box[2]),cv.FONT_HERSHEY_SIMPLEX, 1,(255,0,0),2,cv.LINE_AA)

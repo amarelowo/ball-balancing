@@ -21,19 +21,20 @@ def enviarDados(verficador, dado1, dado2, dado3):
     esp.write(bytes(dado,"utf-8"))
     retorno = esp.readline()
     print(dado,retorno)
-    time.sleep(0.01)
+    # time.sleep(0.01)
 
     
 
 
 
 
-## Codigo para testar o angulo do servo
+# ## Codigo para testar o angulo do servo
 
 # slamane = 0
 # while slamane != -1:
 #     slamane = int(input("escreve ai: "))
-#     dado = format(slamane, '03d')
-#     esp.write(bytes(dado,"utf-8"))
-#     print(slamane)
+#     enviarDados("p",141,slamane,0)
+#     # dado = format(slamane, '03d')
+#     # esp.write(bytes(dado,"utf-8"))
+#     # print(slamane)
 
