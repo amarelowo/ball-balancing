@@ -57,7 +57,7 @@ while True:
         # cv.putText(frame,f"DistY: {distY} DistForY: {distFormatadaY}",(15,40),cv.FONT_HERSHEY_SIMPLEX, 0.5,(255,0,0),1,cv.LINE_AA)
         #-------------- Envia os dados para a esp --------------
         if (configuracoes["Esp-conectado"]):
-            data = threading.Thread(target=ComunicacaoSerial.enviarDados("p",distFormatadaX,distFormatadaY,0))
+            data = threading.Thread(target=ComunicacaoSerial.enviarDados("p",distFormatadaX,250,0))
             data.start()
 
     else:

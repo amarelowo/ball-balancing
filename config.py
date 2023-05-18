@@ -1,6 +1,6 @@
 FORMATOS = {
-    "RAIO-MAXIMO": 50,
-    "RAIO-MINIMO": 10,
+    "RAIO-MAXIMO": 20,
+    "RAIO-MINIMO": 15,
     "AREA-MINIMA":55000,
     "AREA-MAXIMA":60000
 }
@@ -13,5 +13,5 @@ COR = {
     "verde":((0,0,0),(255,140,130)),
     "laranja":((0,0,156),(37,103,255)),
     "preto":((0,0,0),(180,56,200)),
-    "branco":((0,0,213),(37,40,255))
+    "branco":((0,0,114),(109,42,255))
 }
